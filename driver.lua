@@ -160,9 +160,9 @@ function SendToRooms(tRooms, strCommand, strDevice, strHidden)
 		C4:SendToDevice(roomId, strCommand, tParams)
 		Dbg("C4:SendToDevice(" .. roomId .. ", \"" .. strCommand .. "\", " .. formatParams(tParams) .. ")")
 	end
-    if (Properties["Refresh Navigators"] == "On") then
+	if (Properties["Refresh Navigators"] == "On") then
 		C4:NetConnect(DIRECTOR_BINDING, DIRECTOR_PORT)
-    end
+	end
 end
 
 ---------------------------------------------------------------------------------------------
@@ -171,7 +171,7 @@ end
 --Description   : Function called when debug information is to be printed/logged (if enabled)
 ---------------------------------------------------------------------------------------------
 function Dbg(strDebugText)
-    if (g_debugMode == 1) then print(strDebugText) end
+	if (g_debugMode == 1) then print(strDebugText) end
 end
 
 ----------------------------------------------------------------
@@ -189,11 +189,11 @@ end
 --Description   : Function called to convert string to boolean
 ----------------------------------------------------------------
 function toboolean(str)
-    local bool = false
-    if str == "true" then
-        bool = true
-    end
-    return bool
+	local bool = false
+	if str == "true" then
+		bool = true
+	end
+	return bool
 end
 
 ---------------------------------------------------------
