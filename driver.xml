@@ -1,0 +1,90 @@
+<devicedata>
+	<copyright>Copyright 2023 Welton Cartel. All rights reserved.</copyright>
+	<creator>Welton Cartel</creator>
+	<manufacturer>Control4</manufacturer>
+	<name>Navigator Wizard</name>
+	<model>Navigator UI</model>
+	<created>23/02/2023 12:00 AM</created>
+	<modified>23/02/2023 12:00 AM</modified>
+	<version>1</version>
+	<control>lua_gen</control>
+	<driver>DriverWorks</driver>
+	<combo>true</combo>
+	<small image_source="c4z">icons/device_sm.png</small>
+	<large image_source="c4z">icons/device_lg.png</large>
+	<proxies>
+		<proxy name="Navigator Wizard" image_source="c4z" large_image="icons/device_lg.png" small_image="icons/device_sm.png">NavigatorWizard</proxy>
+	</proxies>
+	<events/>
+	<config>
+		<script jit="1" file="driver.lua"/>
+		<documentation file="www/documentation/index.html"/>
+		<properties>
+			<property>
+				<name>Driver Information</name>
+				<type>LABEL</type>
+				<default>Driver Information</default>
+			</property>
+			<property>
+				<name>Driver Name</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Driver Version</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>On</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<actions/>
+		<commands>
+			<command>
+				<name>Set Visibility</name>
+				<description>Set PARAM1 in PARAM2 to Hidden: PARAM3</description>
+				<params>
+					<param>
+						<name>Device Selection</name>
+						<type>DEVICE_SELECTOR</type>
+						<items>
+							<item>media_service.c4i</item>
+						</items>
+						<multiselect>false</multiselect>
+						<default/>
+					</param>
+					<param>
+						<name>Room Selection</name>
+						<type>DEVICE_SELECTOR</type>
+						<items>
+							<item>roomdevice.c4i</item>
+						</items>
+						<multiselect>true</multiselect>
+						<default/>
+					</param>
+					<param>
+						<name>Hidden</name>
+						<items>
+							<item>true</item>
+							<item>false</item>
+						</items>
+						<type>LIST</type>
+						<default/>
+					</param>
+				</params>
+			</command>
+		</commands>
+	</config>
+	<capabilities/>
+	<connections/>
+</devicedata>
