@@ -6,7 +6,7 @@
 	<model>Navigator UI</model>
 	<created>23/02/2023 12:00 AM</created>
 	<modified>23/02/2023 12:00 AM</modified>
-	<version>1</version>
+	<version>2</version>
 	<control>lua_gen</control>
 	<driver>DriverWorks</driver>
 	<combo>true</combo>
@@ -47,6 +47,16 @@
 				<default>Off</default>
 				<readonly>false</readonly>
 			</property>
+			<property>
+				<name>Refresh Navigators</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>On</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
 		</properties>
 		<actions/>
 		<commands>
@@ -58,7 +68,14 @@
 						<name>Device Selection</name>
 						<type>DEVICE_SELECTOR</type>
 						<items>
+							<item>amplifier.c4i</item>
+							<item>avswitch.c4i</item>
+							<item>dvd.c4i</item>
 							<item>media_service.c4i</item>
+							<item>media_player.c4i</item>
+							<item>satellite.c4i</item>
+							<item>tv.c4i</item>
+							<item>tuner.c4i</item>
 						</items>
 						<multiselect>false</multiselect>
 						<default/>

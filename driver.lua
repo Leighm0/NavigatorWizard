@@ -6,6 +6,8 @@ do
 	OPC = {}
 	g_debugMode = 0
 	g_DbgPrint = nil
+	DIRECTOR_BINDING = 6001
+	DIRECTOR_PORT = 5020
 end
 
 ----------------------------------------------------------------------------
@@ -32,6 +34,18 @@ end
 -----------------------------------------------------------------------------------------------------------------------------
 function OnDriverDestroyed()
 	if (g_DbgPrint ~= nil) then g_DbgPrint:Cancel() end
+end
+
+--------------------------------------------------------------------------
+--Function Name : OnConnectionStatusChanged
+--Description   : Function called when a driver connection status changes.
+--------------------------------------------------------------------------
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+	if (strStatus == "ONLINE") then
+		-- Send PIP command (refresh navs)
+		C4:SendToNetwork(DIRECTOR_BINDING, DIRECTOR_PORT, '<c4soap name="PIP" async="1"></c4soap>' .. string.char(0))
+		C4:NetDisconnect(DIRECTOR_BINDING, DIRECTOR_PORT)
+	end
 end
 
 ----------------------------------------------------------------------------
@@ -73,6 +87,17 @@ function OPC.DEBUG_MODE(strProperty)
 			C4:UpdateProperty("Debug Mode", "Off")
 			timer:Cancel()
 		end, false)
+	end
+end
+
+---------------------------------------------------------------------------------
+--Function Name : OPC.REFRESH_NAVIGATORS
+--Parameters    : strProperty(str)
+--Description   : Function called when Refresh Navigators property changes value.
+---------------------------------------------------------------------------------
+function OPC.REFRESH_NAVIGATORS(strProperty)
+	if (strProperty == "On") then
+		C4:CreateNetworkConnection(DIRECTOR_BINDING, "127.0.0.1")
 	end
 end
 
@@ -135,6 +160,9 @@ function SendToRooms(tRooms, strCommand, strDevice, strHidden)
 		C4:SendToDevice(roomId, strCommand, tParams)
 		Dbg("C4:SendToDevice(" .. roomId .. ", \"" .. strCommand .. "\", " .. formatParams(tParams) .. ")")
 	end
+    if (Properties["Refresh Navigators"] == "On") then
+		C4:NetConnect(DIRECTOR_BINDING, DIRECTOR_PORT)
+    end
 end
 
 ---------------------------------------------------------------------------------------------
