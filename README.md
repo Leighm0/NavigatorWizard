@@ -1,4 +1,4 @@
-[navigator](https://user-images.githubusercontent.com/69341431/220943585-b66eafe4-6b23-46c4-86f5-b0be245d640f.png)
+![navigator](https://user-images.githubusercontent.com/69341431/220943585-b66eafe4-6b23-46c4-86f5-b0be245d640f.png)
 
 # Control4 Navigator Wizard
 
