@@ -14,7 +14,7 @@ Note: There is currently no way to filter available devices based on Room or Nav
 
 #### Example Programmning Action:
 
-![navigatorwizard](https://user-images.githubusercontent.com/69341431/220943727-ac34e920-7771-4a94-935d-2dd15159dcf6.png)
+![navigatorwizard](https://user-images.githubusercontent.com/69341431/223659155-d0cc94e6-8c8b-4045-a0c0-101141653b23.png)
 
 #### Release Notes:
 
