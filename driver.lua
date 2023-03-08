@@ -56,7 +56,7 @@ end
 function OnPropertyChanged(strProperty)
 	Dbg("OnPropertyChanged: " .. strProperty .. " (" .. Properties[strProperty] .. ")")
 	local propertyValue = Properties[strProperty]
-	if (propertyValue == nil) then propertyValue = '' end
+	if (propertyValue == nil) then propertyValue = "" end
 	local strProperty = string.upper(strProperty)
 	strProperty = string.gsub(strProperty, "%s+", "_")
 	local success, ret
@@ -101,6 +101,21 @@ function OPC.REFRESH_NAVIGATORS(strProperty)
 	end
 end
 
+---------------------------------------------------------------------------------
+--Function Name : GetCommandParamList
+--Parameters    : commandName(str), paramName(str)
+--Description   : This function is required for DYNAMIC_LIST type commands.
+---------------------------------------------------------------------------------
+function GetCommandParamList(commandName, paramName)
+    local tList = {}
+	if (commandName == "Set Visibility") then
+        if (paramName == "Select Navigator") then
+            tList = {"Comfort", "Lights", "Listen", "Security", "Shades", "Watch"}
+        end
+    end
+	return (tList)
+end
+
 -----------------------------------------------------------------------------------------------------
 --Function Name : ExecuteCommand
 --Parameters    : strCommand(str), tParams(table)
@@ -109,7 +124,7 @@ end
 function ExecuteCommand(strCommand, tParams)
 	tParams = tParams or {}
 	Dbg("ExecuteCommand: " .. strCommand .. " (" ..  formatParams(tParams) .. ")")
-	if (strCommand == 'LUA_ACTION') then
+	if (strCommand == "LUA_ACTION") then
 		if (tParams.ACTION) then
 			strCommand = tParams.ACTION
 			tParams.ACTION = nil
@@ -134,19 +149,28 @@ end
 --Description   : Function called when "Set Visibility" ExecuteCommand is received.
 ----------------------------------------------------------------------------------
 function EC.SET_VISIBILITY(tParams)
-	local device = tParams["Device Selection"] or ""
-	local rooms = tParams["Room Selection"] or ""
+	local navigator = tParams["Select Navigator"] or ""
+	local device = tParams["Select Device"] or ""
+	local rooms = tParams["Select Rooms"] or ""
 	local hidden = tParams["Hidden"] or ""
-	if (device == "") or (rooms == "") or (hidden == "") then return end
-	SendToRooms(rooms, "SET_DEVICE_HIDDEN_STATE", device, hidden)
+	if (navigator == "") or (device == "") or (rooms == "") or (hidden == "") then return end
+	SendToRooms(navigator, device, rooms, hidden, "SET_DEVICE_HIDDEN_STATE")
 end
 
------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 --Function Name : SendToRooms
---Parameters    : tRooms(table), strCommand(str), strDevice(str), strHidden(str)
+--Parameters    : strNavigator(str), strDevice(str), tRooms(table), strHidden(str), strCommand(str)
 --Description   : Function called to send device visibility change to room.
------------------------------------------------------------------------------------
-function SendToRooms(tRooms, strCommand, strDevice, strHidden)
+---------------------------------------------------------------------------------------------------
+function SendToRooms(strNavigator, strDevice, tRooms, strHidden, strCommand)
+	local ProxyGroup = {
+		["Comfort"] = "OrderedComfortList",
+		["Lights"] = "OrderedLightList",
+		["Listen"] = "OrderedListenList",
+		["Security"] = "OrderedSecurityList",
+		["Shades"] = "OrderedBlindList",
+		["Watch"] = "OrderedWatchList"
+	}
 	tRooms = trim(tRooms) .. ","
 	local tParams = {}
 	local proxyId = strDevice
@@ -154,7 +178,7 @@ function SendToRooms(tRooms, strCommand, strDevice, strHidden)
 	for id in tRooms:gfind("(%d+),") do
 		local roomId = tonumber(id) or 0
 		if (roomId == 0) then break end
-		tParams["PROXY_GROUP"] = "OrderedWatchList"
+		tParams["PROXY_GROUP"] = ProxyGroup[strNavigator]
 		tParams["DEVICE_ID"] = proxyId
 		tParams["IS_HIDDEN"] = toboolean(strHidden)
 		C4:SendToDevice(roomId, strCommand, tParams)
