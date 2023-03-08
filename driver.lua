@@ -107,12 +107,12 @@ end
 --Description   : This function is required for DYNAMIC_LIST type commands.
 ---------------------------------------------------------------------------------
 function GetCommandParamList(commandName, paramName)
-    local tList = {}
+	local tList = {}
 	if (commandName == "Set Visibility") then
-        if (paramName == "Select Navigator") then
-            tList = {"Comfort", "Lights", "Listen", "Security", "Shades", "Watch"}
-        end
-    end
+		if (paramName == "Select Navigator") then
+			tList = {"Comfort", "Lights", "Listen", "Security", "Shades", "Watch"}
+		end
+	end
 	return (tList)
 end
 
